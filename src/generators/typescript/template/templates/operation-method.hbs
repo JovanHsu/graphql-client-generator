@@ -1,0 +1,35 @@
+  public {{#if isSubscription}}async {{methodName}}{{else}}async {{methodName}}{{/if}}({{#each args}}{{name}}{{#if required}}{{else}}?{{/if}}: {{type}}{{#if @last}}{{else}}, {{/if}}{{/each}}): {{#if isSubscription}}Promise<AsyncIterableIterator<{{returnType}}>>{{else}}Promise<{{returnType}}>{{/if}} {
+    const query = `
+      {{operationType}} {{methodName}}{{#if hasArgs}}({{#each args}}${{name}}: {{graphqlType}}{{#if @last}}{{else}}, {{/if}}{{/each}}){{/if}} {
+        {{methodName}}{{#if hasArgs}}({{#each args}}{{name}}: ${{name}}{{#if @last}}{{else}}, {{/if}}{{/each}}){{/if}} {
+{{{fieldSelection}}}
+        }
+      }
+    `;
+    
+    {{#if isSubscription}}
+    
+    // 应用超时和重试
+    return withRetryAndTimeout(async () => {
+      // @ts-ignore - GraphQL客户端类型定义问题
+        return this.client.subscribe(query{{#if hasArgs}}, { {{#each args}}{{name}}{{#if @last}}{{else}}, {{/if}}{{/each}} }{{/if}}) as AsyncIterableIterator<{{returnType}}>;
+      },
+      { 
+          maxRetries: this.options.maxRetries, 
+          retryDelay: this.options.retryDelay,
+          timeout: this.options.timeout
+    });
+    {{else}}
+    return withRetryAndTimeout(
+      async () => {
+        const response = await this.client.request<{ {{methodName}}: {{returnType}} }>(query{{#if hasArgs}}, { {{#each args}}{{name}}{{#if @last}}{{else}}, {{/if}}{{/each}} }{{/if}});
+        return response.{{methodName}};
+      },
+      {
+        maxRetries: this.options.maxRetries,
+        retryDelay: this.options.retryDelay,
+        timeout: this.options.timeout
+      }
+    );
+    {{/if}}
+  }

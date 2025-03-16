@@ -1,0 +1,15 @@
+import { GraphQLClient } from 'graphql-request';
+import type { ClientOptions } from './client';{{#if hasTypes}}
+import type { {{join types ", "}} } from './types.index';{{/if}}
+{{#if generateUtils}}import { withRetryAndTimeout } from './utils';{{/if}}
+
+export class {{clientName}}Client {
+  constructor(
+    private readonly client: GraphQLClient,
+    private readonly options: ClientOptions
+  ) {}
+
+{{#each methods}}{{this}}{{#if @last}}{{else}}
+
+{{/if}}{{/each}}
+}

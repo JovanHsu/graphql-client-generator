@@ -1,0 +1,32 @@
+{
+  "name": "graphql-client-generator",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "ts-node example/generate.ts",
+    "clean": "rm -rf dist example/generated"
+  },
+  "keywords": [
+    "graphql",
+    "code-generator",
+    "typescript",
+    "javascript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "GraphQL client generator for TypeScript and JavaScript",
+  "dependencies": {
+    "@types/node": "^22.13.10",
+    "@types/prettier": "^3.0.0",
+    "graphql": "^16.10.0",
+    "graphql-request": "^7.1.2",
+    "handlebars": "^4.7.8",
+    "prettier": "^3.5.3"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}

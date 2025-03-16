@@ -1,0 +1,8 @@
+{{#if hasTypes}}import type { {{join types}} } from './types.index';
+
+{{/if}}{{#each fragments}}{{this}}
+{{/each}}
+export const fragments = {
+{{#each fragmentNames}}  {{this}}{{#if @last}}{{else}},
+{{/if}}{{/each}}
+};

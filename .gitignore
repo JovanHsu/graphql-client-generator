@@ -1,0 +1,11 @@
+**/**/node_modules
+**/.idea
+**/*/target
+**/*/logs
+**/*/logs/*
+**/*/logs/*/*
+**/*/logs/*/*/*
+**/*/logs/*/*/*/*
+**/*/logs/*/*/*/*/*
+**/*/dist
+

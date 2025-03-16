@@ -1,0 +1,10 @@
+{{#if generateComments}}{{#if description}}/**
+ * {{description}}
+ */
+{{/if}}{{/if}}export {{#if useTypeAliases}}type{{else}}interface{{/if}} {{name}} {
+{{#each fields}}{{#if ../generateComments}}{{#if description}}  /**
+   * {{description}}
+   */
+{{/if}}{{/if}}  {{name}}{{#if required}}{{else}}?{{/if}}: {{type}};
+{{/each}}
+}

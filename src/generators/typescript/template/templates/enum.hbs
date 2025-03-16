@@ -1,0 +1,7 @@
+{{#if generateComments}}{{#if description}}/**
+ * {{description}}
+ */
+{{/if}}{{/if}}export enum {{name}} {
+{{#each values}}  {{this}} = '{{this}}'{{#if @last}}{{else}},{{/if}}
+{{/each}}
+}

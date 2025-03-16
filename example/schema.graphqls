@@ -1,0 +1,587 @@
+"""
+AI信息集成平台GraphQL Schema
+"""
+
+type Query {
+    """
+    获取所有文章（分页）
+    """
+    articles(page: PageInput): ArticlePage!
+    
+    """
+    根据ID获取单个文章
+    """
+    article(id: ID!): Article
+    
+    """
+    根据RSS订阅源ID获取文章（分页）
+    """
+    articlesByFeed(feedId: ID!, page: PageInput): ArticlePage!
+    
+    """
+    根据分类ID获取文章（分页）
+    """
+    articlesByCategory(categoryId: ID!, page: PageInput): ArticlePage!
+    
+    """
+    搜索文章（分页）
+    """
+    searchArticles(keyword: String!, page: PageInput): ArticlePage!
+    
+    """
+    获取所有分类
+    """
+    categories: [Category!]!
+    
+    """
+    根据ID获取单个分类
+    """
+    category(id: ID!): Category
+    
+    """
+    获取所有RSS订阅源
+    """
+    rssFeeds: [RssFeed!]!
+    
+    """
+    根据ID获取单个RSS订阅源
+    """
+    rssFeed(id: ID!): RssFeed
+}
+
+type Mutation {
+    """
+    更新文章
+    """
+    updateArticle(id: ID!, input: ArticleUpdateInput!): Article!
+    
+    """
+    删除文章
+    """
+    deleteArticle(id: ID!): Boolean!
+    
+    """
+    为文章生成AI摘要
+    """
+    generateArticleSummary(id: ID!): Article!
+    
+    """
+    创建分类
+    """
+    createCategory(input: CategoryInput!): Category!
+    
+    """
+    更新分类
+    """
+    updateCategory(id: ID!, input: CategoryInput!): Category!
+    
+    """
+    删除分类
+    """
+    deleteCategory(id: ID!): Boolean!
+    
+    """
+    创建RSS订阅源
+    """
+    createRssFeed(input: RssFeedInput!): RssFeed!
+    
+    """
+    更新RSS订阅源
+    """
+    updateRssFeed(id: ID!, input: RssFeedInput!): RssFeed!
+    
+    """
+    删除RSS订阅源
+    """
+    deleteRssFeed(id: ID!): Boolean!
+    
+    """
+    抓取单个RSS订阅源
+    """
+    fetchRssFeed(id: ID!): RssFeed!
+    
+    """
+    抓取所有RSS订阅源
+    """
+    fetchAllRssFeeds: [RssFeed!]!
+}
+
+"""
+文章类型
+"""
+type Article {
+    """
+    文章ID
+    """
+    id: ID!
+    
+    """
+    标题
+    """
+    title: String!
+    
+    """
+    内容
+    """
+    content: String!
+    
+    """
+    摘要
+    """
+    summary: String
+    
+    """
+    AI生成的摘要
+    """
+    aiSummary: String
+    
+    """
+    作者
+    """
+    author: String
+    
+    """
+    原文URL
+    """
+    url: String
+    
+    """
+    图片URL
+    """
+    imageUrl: String
+    
+    """
+    发布日期
+    """
+    publishDate: DateTime
+    
+    """
+    状态
+    """
+    status: String!
+    
+    """
+    状态显示文本
+    """
+    statusDisplay: String!
+    
+    """
+    分类列表
+    """
+    categories: [Category!]!
+    
+    """
+    标签列表
+    """
+    tags: [String!]
+    
+    """
+    所属RSS订阅源ID
+    """
+    feedId: ID
+    
+    """
+    所属RSS订阅源名称
+    """
+    feedName: String
+    
+    """
+    创建时间
+    """
+    createdAt: DateTime!
+    
+    """
+    更新时间
+    """
+    updatedAt: DateTime!
+    
+    """
+    格式化的发布日期
+    """
+    formattedPublishDate: String!
+    
+    """
+    格式化的创建时间
+    """
+    formattedCreatedAt: String!
+}
+
+"""
+文章分页结果
+"""
+type ArticlePage {
+    """
+    文章列表
+    """
+    content: [Article!]!
+    
+    """
+    分页信息
+    """
+    pageInfo: PageInfo!
+}
+
+"""
+分页信息
+"""
+type PageInfo {
+    """
+    当前页码
+    """
+    pageNumber: Int!
+    
+    """
+    每页大小
+    """
+    pageSize: Int!
+    
+    """
+    总元素数
+    """
+    totalElements: Int!
+    
+    """
+    总页数
+    """
+    totalPages: Int!
+    
+    """
+    是否为第一页
+    """
+    isFirst: Boolean!
+    
+    """
+    是否为最后一页
+    """
+    isLast: Boolean!
+    
+    """
+    是否有下一页
+    """
+    hasNext: Boolean!
+    
+    """
+    是否有上一页
+    """
+    hasPrevious: Boolean!
+}
+
+"""
+分类类型
+"""
+type Category {
+    """
+    分类ID
+    """
+    id: ID!
+    
+    """
+    名称
+    """
+    name: String!
+    
+    """
+    描述
+    """
+    description: String
+    
+    """
+    颜色（十六进制颜色代码）
+    """
+    color: String
+    
+    """
+    显示顺序
+    """
+    displayOrder: Int
+    
+    """
+    创建时间
+    """
+    createdAt: DateTime!
+    
+    """
+    更新时间
+    """
+    updatedAt: DateTime!
+    
+    """
+    文章数量
+    """
+    articleCount: Int!
+    
+    """
+    格式化的创建时间
+    """
+    formattedCreatedAt: String!
+}
+
+"""
+RSS订阅源类型
+"""
+type RssFeed {
+    """
+    订阅源ID
+    """
+    id: ID!
+    
+    """
+    RSS订阅源URL
+    """
+    url: String!
+    
+    """
+    名称
+    """
+    name: String!
+    
+    """
+    描述
+    """
+    description: String
+    
+    """
+    网站URL
+    """
+    websiteUrl: String
+    
+    """
+    图片URL
+    """
+    imageUrl: String
+    
+    """
+    分类列表
+    """
+    categories: [Category!]!
+    
+    """
+    最后抓取时间
+    """
+    lastFetchTime: DateTime
+    
+    """
+    创建时间
+    """
+    createdAt: DateTime!
+    
+    """
+    更新时间
+    """
+    updatedAt: DateTime!
+    
+    """
+    状态
+    """
+    status: String!
+    
+    """
+    错误信息
+    """
+    errorMessage: String
+    
+    """
+    文章数量
+    """
+    articleCount: Int!
+    
+    """
+    距离下次抓取的分钟数
+    """
+    minutesToNextFetch: Int
+    
+    """
+    下次抓取时间显示
+    """
+    nextFetchTimeDisplay: String!
+    
+    """
+    订阅源设置
+    """
+    settings: FeedSettings!
+}
+
+"""
+RSS订阅源设置类型
+"""
+type FeedSettings {
+    """
+    是否启用AI摘要生成
+    """
+    enableAiSummary: Boolean!
+    
+    """
+    抓取间隔（分钟）
+    """
+    fetchIntervalMinutes: Int!
+    
+    """
+    抓取间隔显示文本
+    """
+    fetchIntervalDisplay: String!
+    
+    """
+    是否自动发布文章
+    """
+    autoPublish: Boolean!
+}
+
+"""
+分页输入
+"""
+input PageInput {
+    """
+    页码（从1开始）
+    """
+    page: Int = 1
+    
+    """
+    每页大小
+    """
+    size: Int = 10
+    
+    """
+    排序字符串，格式为"字段:方向"，例如"publishDate:desc"
+    """
+    sort: String
+}
+
+"""
+文章更新输入
+"""
+input ArticleUpdateInput {
+    """
+    标题
+    """
+    title: String
+    
+    """
+    内容
+    """
+    content: String
+    
+    """
+    作者
+    """
+    author: String
+    
+    """
+    原文URL
+    """
+    url: String
+    
+    """
+    图片URL
+    """
+    imageUrl: String
+    
+    """
+    发布日期
+    """
+    publishDate: DateTime
+    
+    """
+    状态
+    """
+    status: String
+    
+    """
+    分类ID列表
+    """
+    categoryIds: [ID!]
+    
+    """
+    标签列表
+    """
+    tags: [String!]
+}
+
+"""
+分类输入
+"""
+input CategoryInput {
+    """
+    名称
+    """
+    name: String!
+    
+    """
+    描述
+    """
+    description: String
+    
+    """
+    颜色（十六进制颜色代码）
+    """
+    color: String
+    
+    """
+    显示顺序
+    """
+    displayOrder: Int
+}
+
+"""
+RSS订阅源输入
+"""
+input RssFeedInput {
+    """
+    RSS订阅源URL
+    """
+    url: String!
+    
+    """
+    名称
+    """
+    name: String!
+    
+    """
+    描述
+    """
+    description: String
+    
+    """
+    网站URL
+    """
+    websiteUrl: String
+    
+    """
+    图片URL
+    """
+    imageUrl: String
+    
+    """
+    分类ID列表
+    """
+    categoryIds: [ID!]
+    
+    """
+    订阅源设置
+    """
+    settings: FeedSettingsInput
+}
+
+"""
+RSS订阅源设置输入
+"""
+input FeedSettingsInput {
+    """
+    是否启用AI摘要生成
+    """
+    enableAiSummary: Boolean!
+    
+    """
+    抓取间隔（分钟）
+    """
+    fetchIntervalMinutes: Int!
+    
+    """
+    是否自动发布文章
+    """
+    autoPublish: Boolean!
+}
+
+"""
+日期时间标量类型
+"""
+scalar DateTime

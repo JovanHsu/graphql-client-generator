@@ -1,0 +1,1 @@
+// No enum types defined
