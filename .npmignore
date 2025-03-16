@@ -1,0 +1,26 @@
+# 源代码
+src/
+
+# 测试和示例
+example/
+test/
+__tests__/
+
+# 配置文件
+tsconfig.json
+.prettierrc
+.eslintrc
+.editorconfig
+
+# Git 相关
+.git/
+.gitignore
+
+# 其他
+node_modules/
+npm-debug.log
+yarn-error.log
+.DS_Store
+.vscode/
+.idea/
+*.log 

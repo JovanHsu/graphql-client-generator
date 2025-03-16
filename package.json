@@ -14,9 +14,17 @@
     "typescript",
     "javascript"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "JovanHsu",
+  "license": "MIT",
   "description": "GraphQL client generator for TypeScript and JavaScript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jovanhsu/graphql-client-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jovanhsu/graphql-client-generator/issues"
+  },
+  "homepage": "https://github.com/jovanhsu/graphql-client-generator#readme",
   "dependencies": {
     "@types/node": "^22.13.10",
     "@types/prettier": "^3.0.0",
