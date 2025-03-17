@@ -8,14 +8,43 @@ import * as path from 'path';
  */
 export class TemplateManager {
   private readonly templates: Map<string, Handlebars.TemplateDelegate> = new Map();
-  private readonly templateDir: string;
+  private templateDir: string = '';
 
   /**
    * 创建模板管理器
    * @param templateDir 模板目录路径，默认为当前目录下的templates文件夹
    */
   constructor(templateDir?: string) {
-    this.templateDir = templateDir || path.join(__dirname, 'templates');
+    // 使用绝对路径，确保在命令行工具中也能找到模板
+    const srcDir = path.resolve(__dirname, '../../../../../src');
+    const distDir = path.resolve(__dirname, '../../../../');
+    
+    // 尝试多个可能的路径
+    const possiblePaths = [
+      // 1. 用户提供的路径
+      templateDir,
+      // 2. 相对于当前文件的路径（开发环境）
+      path.join(__dirname, 'templates'),
+      // 3. 相对于src目录的路径（开发环境）
+      path.join(srcDir, 'generators/typescript/template/templates'),
+      // 4. 相对于dist目录的路径（生产环境）
+      path.join(distDir, 'generators/typescript/template/templates')
+    ].filter(Boolean);
+    
+    // 查找第一个存在的路径
+    for (const dir of possiblePaths) {
+      if (dir && fs.existsSync(dir)) {
+        this.templateDir = dir;
+        break;
+      }
+    }
+    
+    // 如果没有找到有效路径，使用默认路径
+    if (!this.templateDir) {
+      this.templateDir = path.join(__dirname, 'templates');
+      console.warn(`Warning: Template directory not found, using default: ${this.templateDir}`);
+    }
+    
     this.registerHelpers();
   }
 

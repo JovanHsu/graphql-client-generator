@@ -28,9 +28,9 @@ export class FragmentGenerator extends BaseTypeScriptGenerator {
     
     // 加载片段模板
     try {
-      this.templateManager.loadTemplate('fragment');
+      this.templateManager.loadTemplate('fragments');
     } catch (error: any) {
-      console.error(`Error loading fragment template: ${error.message}`);
+      console.error(`Error loading fragments template: ${error.message}`);
     }
     
     // 加载片段集合模板
@@ -75,7 +75,7 @@ export class FragmentGenerator extends BaseTypeScriptGenerator {
       const fieldSelection = this.fieldSelectionGenerator.generateFieldSelection(fragment.onType, 4);
       
       // 使用模板渲染片段
-      const fragmentContent = this.templateManager.render('fragment', {
+      const fragmentContent = this.templateManager.render('fragments', {
         name: fragment.name,
         onType: fragment.onType,
         fieldSelection
