@@ -6,7 +6,8 @@ npm run build
 
 # 创建全局链接
 echo "创建全局链接..."
-npm link
+echo "注意：可能需要输入密码来获取权限"
+sudo npm link
 
 echo "安装完成！现在可以使用 'graphql-client-gen' 命令了。"
 echo "示例："

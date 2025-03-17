@@ -1,4 +1,4 @@
-import { getIntrospectionQuery, buildClientSchema, printSchema } from 'graphql';
+import { getIntrospectionQuery, buildClientSchema, printSchema, IntrospectionQuery } from 'graphql';
 import { request } from 'graphql-request';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -25,7 +25,7 @@ export class SchemaFetcher {
       const result = await request(endpoint, introspectionQuery);
       
       // 构建客户端 schema
-      const schema = buildClientSchema(result);
+      const schema = buildClientSchema(result.data as IntrospectionQuery);
       
       // 将 schema 转换为 SDL 格式
       const sdlSchema = printSchema(schema);
