@@ -5,6 +5,7 @@
 ## 功能特点
 
 - 🚀 根据 GraphQL schema 自动生成类型安全的客户端代码
+- 📡 支持从文件或 GraphQL 端点获取 schema
 - 🔄 支持 TypeScript 和 JavaScript 两种语言
 - 🧩 可选择性地与 React、Vue 等前端框架集成
 - 🔒 生成的 TypeScript 代码提供完整的类型定义，确保类型安全
@@ -27,10 +28,11 @@ import * as path from 'path';
 
 async function main() {
   try {
-    // 生成 TypeScript 客户端
+    // 方式一：从文件获取 schema
     await generateClient({
       schemaPath: path.resolve('./schema.graphql'),
-      outputDir: path.resolve('./generated'),
+      schemaFormat: 'file',  // 可选，默认就是 'file'
+      outputDir: path.resolve('./generated/from-file'),
       language: 'typescript',
       documents: [],  // 可选的操作文件
       prettier: {
@@ -47,7 +49,30 @@ async function main() {
       },
     });
 
-    console.log('✨ 客户端代码生成成功！');
+    console.log('✨ 从文件生成客户端代码成功！');
+    
+    // 方式二：从 GraphQL 端点获取 schema
+    await generateClient({
+      endpoint: 'https://api.example.com/graphql',
+      schemaFormat: 'endpoint',
+      outputDir: path.resolve('./generated/from-endpoint'),
+      language: 'typescript',
+      documents: [],
+      prettier: {
+        semi: true,
+        singleQuote: true,
+        tabWidth: 2,
+        trailingComma: 'es5',
+      },
+      naming: {
+        typePrefix: '',
+        typeSuffix: '',
+        enumPrefix: '',
+        enumSuffix: 'Enum',
+      },
+    });
+    
+    console.log('✨ 从端点生成客户端代码成功！');
   } catch (error) {
     console.error('❌ 生成失败:', error);
   }
@@ -60,7 +85,9 @@ main();
 
 | 选项 | 类型 | 必填 | 描述 |
 |------|------|------|------|
-| `schemaPath` | `string` | 是 | GraphQL schema 文件路径 |
+| `schemaPath` | `string` | 否* | GraphQL schema 文件路径（与 endpoint 二选一） |
+| `endpoint` | `string` | 否* | GraphQL 端点 URL（与 schemaPath 二选一） |
+| `schemaFormat` | `'file' \| 'endpoint'` | 否 | schema 获取方式，默认为 'file' |
 | `outputDir` | `string` | 是 | 输出目录 |
 | `language` | `'typescript' \| 'javascript'` | 是 | 目标语言 |
 | `documents` | `string[]` | 否 | GraphQL 操作文件路径（查询和变更） |

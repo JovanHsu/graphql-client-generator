@@ -2,10 +2,13 @@ export { GeneratorConfig } from './config';
 export * from './generators';
 export * from './utils/file-system';
 export * from './utils/schema-parser';
+export * from './utils/schema-fetcher';
 
+import * as path from 'path';
 import { GeneratorConfig, defaultConfig } from './config';
 import { BaseGenerator, JavaScriptGenerator, TypeScriptGenerator } from './generators';
 import { SchemaParser } from './utils/schema-parser';
+import { SchemaFetcher } from './utils/schema-fetcher';
 
 /**
  * 生成 GraphQL 客户端代码
@@ -16,8 +19,16 @@ export async function generateClient(config: GeneratorConfig): Promise<void> {
     // 合并配置
     const finalConfig = { ...defaultConfig, ...config };
 
+    // 获取 schema 文件路径
+    const schemaPath = await SchemaFetcher.getSchemaPath(
+      finalConfig.schemaPath,
+      finalConfig.endpoint,
+      finalConfig.schemaFormat,
+      path.resolve(finalConfig.outputDir)
+    );
+
     // 解析 schema
-    const parser = new SchemaParser(finalConfig.schemaPath);
+    const parser = new SchemaParser(schemaPath);
     await parser.initialize();
     const schema = parser.parse();
 
