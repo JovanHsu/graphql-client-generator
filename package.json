@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "graphql-client-gen": "dist/cli.js"
+  },
   "scripts": {
     "build": "tsc",
     "test": "ts-node example/generate.ts",
-    "clean": "rm -rf dist example/generated"
+    "clean": "rm -rf dist example/generated",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "graphql",

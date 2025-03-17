@@ -14,10 +14,20 @@
 
 ## 安装
 
+### 作为依赖安装
+
 ```bash
 npm install graphql-client-generator
 # 或
 yarn add graphql-client-generator
+```
+
+### 全局安装作为命令行工具
+
+```bash
+npm install -g graphql-client-generator
+# 或
+yarn global add graphql-client-generator
 ```
 
 ## 使用方法
@@ -114,6 +124,34 @@ main();
 3. **客户端实现**：
    - `client.ts`：GraphQL 客户端类
    - `utils.ts`：工具函数
+
+## 命令行使用
+
+如果您全局安装了该工具，可以直接使用命令行：
+
+```bash
+# 从文件生成
+$ graphql-client-gen --schema ./schema.graphql --output ./generated
+
+# 从端点生成
+$ graphql-client-gen --endpoint https://api.example.com/graphql --format endpoint --output ./generated
+
+# 查看帮助信息
+$ graphql-client-gen --help
+```
+
+### 命令行选项
+
+| 选项 | 描述 |
+|------|------|
+| `--schema <path>` | GraphQL schema 文件路径 |
+| `--endpoint <url>` | GraphQL 端点 URL |
+| `--format <type>` | schema 获取方式，可选值: file, endpoint，默认: file |
+| `--output <dir>` | 输出目录，默认: ./generated |
+| `--language <lang>` | 目标语言，可选值: typescript, javascript，默认: typescript |
+| `--documents <paths>` | GraphQL 操作文件路径，多个路径用逗号分隔 |
+| `--framework <framework>` | 框架支持，可选值: react, vue, none，默认: none |
+| `--help` | 显示帮助信息 |
 
 ## 示例
 
